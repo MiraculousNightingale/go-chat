@@ -16,7 +16,7 @@ type httpServer struct {
 	log        *slog.Logger
 }
 
-func New(options ...option) *httpServer {
+func NewServer(options ...option) *httpServer {
 	server := defaultHttpServer()
 
 	for _, opt := range options {

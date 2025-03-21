@@ -14,7 +14,7 @@ func main() {
 
 	slog.SetLogLoggerLevel(slog.LevelDebug)
 
-	hs := http.New(
+	hs := http.NewServer(
 		http.WithHost(f.Address),
 		http.WithPort(f.Port),
 	)
