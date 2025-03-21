@@ -30,8 +30,6 @@ func NewSession(srv *httpServer, conn *websocket.Conn) (*session, string) {
 }
 
 func (s *session) Start() {
-	s.log.Debug("Starting")
-
 	wm, err := WrapMessage(WelcomeMessage{
 		Message: "Welcome to go-chat!",
 		Date:    time.Now().Format(time.DateTime),
@@ -82,7 +80,6 @@ func (s *session) Start() {
 }
 
 func (s *session) Stop() {
-	s.log.Debug("Stopping")
 
 	s.conn.Close()
 	s.srv.deleteSession(s.id)
