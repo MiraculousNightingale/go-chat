@@ -26,18 +26,27 @@ func NewServer(options ...option) *httpServer {
 	return server
 }
 
+func (srv *httpServer) getAddress() string {
+	return fmt.Sprintf("%s:%s", srv.host, srv.port)
+}
+
 func (srv *httpServer) DebugPrint() {
-	fmt.Println("HTTP server debug print:")
-	fmt.Printf("host: %s\n", srv.host)
-	fmt.Printf("port: %s\n", srv.port)
+	l := slog.Default()
+
+	l.Info("Running HTTP server with the following configuration...")
+	l.Info("Host: " + srv.host)
+	l.Info("Port: " + srv.port)
 }
 
 // Runs the server and blocks current goroutine
 func (srv *httpServer) Start() {
 	http.HandleFunc("/ws", srv.funcWS)
 
+	addr := srv.getAddress()
+
+	srv.log.Info("Listening and serving", "address", addr)
 	http.ListenAndServe(
-		fmt.Sprintf("%s:%s", srv.host, srv.port),
+		addr,
 		nil,
 	)
 }
@@ -47,6 +56,8 @@ func (srv *httpServer) Stop() {
 		session.Stop()
 		delete(srv.sessions, id)
 	}
+
+	srv.log.Info("Stopped")
 }
 
 func (srv *httpServer) funcWS(w http.ResponseWriter, r *http.Request) {

@@ -14,7 +14,7 @@ func defaultHttpServer() *httpServer {
 		port:       "8080",
 		wsUpgrader: websocket.Upgrader{},
 		sessions:   make(map[string]*session),
-		log:        slog.Default(),
+		log:        slog.Default().With("component", "http"),
 	}
 }
 

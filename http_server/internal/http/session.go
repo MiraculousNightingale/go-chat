@@ -19,7 +19,7 @@ type session struct {
 
 func NewSession(srv *httpServer, conn *websocket.Conn) (*session, string) {
 	id := xid.New().String()
-	log := slog.Default().With("sessionId", id)
+	log := slog.Default().With("component", "session", "id", id)
 
 	return &session{
 		srv:  srv,
